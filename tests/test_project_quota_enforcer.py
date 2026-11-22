@@ -59,7 +59,8 @@ def test_concurrent_reserve_no_oversell():
         thread.start()
     for thread in threads:
         thread.join()
-    assert sorted(results) == ["quota-exceeded", "ok"]
+    # sorted() orders plain strings lexicographically, so "ok" comes first.
+    assert sorted(results) == ["ok", "quota-exceeded"]
     assert enforcer.usage("p1")["blocks"] == 60
 
 
